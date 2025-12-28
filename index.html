@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BeforeAfter Studio — Pro Compare</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    :root{
+      --bg:#f5f6f8;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --shadow:0 10px 25px rgba(0,0,0,.08);
+      --radius:18px;
+
+      --btn:#2563eb;
+      --btnText:#ffffff;
+
+      --chip:#eef2ff;
+      --chipBorder:#e0e7ff;
+      --chipText:#3730a3;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+    }
+    .wrap{
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 14px 14px 24px;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .brand{font-weight:800;letter-spacing:.2px}
+    .tag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:var(--chip);
+      border:1px solid var(--chipBorder);
+      color:var(--chipText);
+      white-space:nowrap;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+      margin-bottom:12px;
+    }
+
+    .row{display:flex; gap:10px; flex-wrap:wrap;}
+    .col{flex:1; min-width: 220px;}
+
+    .label{font-size:12px; color:var(--muted); margin: 2px 0 6px;}
+    .small{font-size:12px; color:var(--muted); margin-top:8px; line-height:1.25}
+
+    input[type="file"], button, select{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-size:15px;
+    }
+    select{ cursor:pointer; }
+    .upload{
+      border:1px dashed #cbd5e1;
+      border-radius:16px;
+      padding:12px;
+      background:#fafafa;
+    }
+    button{
+      background:var(--btn);
+      color:var(--btnText);
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+    }
+    button.secondary{
+      background:#fff;
+      color:var(--text);
+      border:1px solid var(--border);
+      font-weight:700;
+    }
+    button:disabled{opacity:.55; cursor:not-allowed;}
+
+    .previewWrap{
+      padding:12px;
+      border-radius:18px;
+      background: linear-gradient(180deg,#ffffff, #fbfbfd);
+      border:1px solid var(--border);
+    }
+    canvas{
+      width:100%;
+      height:auto;
+      border-radius:16px;
+      background:#fff;
+      display:block;
+    }
+
+    .footerRow{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;}
+    .footerRow button{flex:1; min-width: 180px;}
+
+    .slidersGrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .sliderCard{
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:12px;
+      background:#fff;
+    }
+    .sliderHead{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .val{
+      font-variant-numeric: tabular-nums;
+      color:var(--text);
+    }
+    input[type="range"]{width:100%; accent-color: #2563eb;}
+
+    .btnRow2{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;}
+    .btnRow2 button{flex:1; min-width: 180px;}
+
+    /* Simple toggle */
+    .toggleRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:#fff;
+    }
+    .toggleRow .tLabel{
+      font-size:14px;
+      color:var(--text);
+      font-weight:700;
+    }
+    .toggleRow .tSub{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:2px;
+      font-weight:500;
+    }
+    .switch{
+      position:relative;
+      width:54px;
+      height:30px;
+      display:inline-block;
+      flex:0 0 auto;
+    }
+    .switch input{display:none;}
+    .slider{
+      position:absolute; inset:0;
+      background:#e5e7eb;
+      border-radius:999px;
+      transition:.2s;
+    }
+    .slider:before{
+      content:"";
+      position:absolute;
+      width:24px;height:24px;
+      left:3px;top:3px;
+      background:#fff;
+      border-radius:999px;
+      box-shadow:0 4px 10px rgba(0,0,0,.15);
+      transition:.2s;
+    }
+    .switch input:checked + .slider{
+      background:#2563eb;
+    }
+    .switch input:checked + .slider:before{
+      transform:translateX(24px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">BeforeAfter Studio</div>
+      <div class="tag">Face Pro • 1920×1080</div>
+    </header>
+
+    <div class="card">
+      <div class="row">
+        <div class="col upload">
+          <div class="label">Upload BEFORE</div>
+          <input id="beforeFile" type="file" accept="image/*" />
+        </div>
+        <div class="col upload">
+          <div class="label">Upload AFTER</div>
+          <input id="afterFile" type="file" accept="image/*" />
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:10px;">
+        <div class="col">
+          <div class="label">Background (stage)</div>
+          <select id="bgSel">
+            <option value="#d7d9dc" selected>Classic gray</option>
+            <option value="#ffffff">White</option>
+            <option value="#f3f4f6">Light gray</option>
+            <option value="#0b0f19">Dark</option>
+            <option value="#111827">Charcoal</option>
+            <option value="#0b1320">Deep navy</option>
+            <option value="#fef3c7">Warm light</option>
+            <option value="#ecfeff">Cool light</option>
+          </select>
+          <div class="small">Just colors (fast). No images.</div>
+        </div>
+
+        <div class="col">
+          <div class="label">Labels</div>
+          <div class="toggleRow">
+            <div>
+              <div class="tLabel">No labels</div>
+              <div class="tSub">Hide “Before / After” on the final image</div>
+            </div>
+            <label class="switch" title="No labels">
+              <input id="noLabels" type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="small">
+        Tip: align by eyes. Use sliders (Y + Zoom) for each photo until both faces look одинаково по высоте.
+      </div>
+
+      <div class="slidersGrid">
+        <div class="sliderCard">
+          <div class="sliderHead"><span>BEFORE — Y</span><span class="val" id="bYVal">0</span></div>
+          <input id="bY" type="range" min="-250" max="250" value="0" />
+          <div class="sliderHead" style="margin-top:10px;"><span>BEFORE — Zoom</span><span class="val" id="bZVal">1.00</span></div>
+          <input id="bZ" type="range" min="80" max="140" value="100" />
+        </div>
+
+        <div class="sliderCard">
+          <div class="sliderHead"><span>AFTER — Y</span><span class="val" id="aYVal">0</span></div>
+          <input id="aY" type="range" min="-250" max="250" value="0" />
+          <div class="sliderHead" style="margin-top:10px;"><span>AFTER — Zoom</span><span class="val" id="aZVal">1.00</span></div>
+          <input id="aZ" type="range" min="80" max="140" value="100" />
+        </div>
+      </div>
+
+      <div class="btnRow2">
+        <button id="resetBtn" type="button" class="secondary" disabled>Reset align</button>
+        <button id="createBtn" type="button" disabled>Create Preview</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="label">Preview</div>
+      <div class="previewWrap">
+        <canvas id="c" width="1920" height="1080"></canvas>
+      </div>
+
+      <div class="footerRow">
+        <button id="savePngBtn" type="button" class="secondary" disabled>Save PNG</button>
+        <button id="saveJpgBtn" type="button" class="secondary" disabled>Save JPG (small)</button>
+        <button id="copyHintBtn" type="button" class="secondary">Copy tips</button>
+      </div>
+
+      <div class="small">
+        Output: 1920×1080. JPG uses quality 0.90 (small file).
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) { tg.expand(); tg.ready(); }
+
+    const OUT_W = 1920, OUT_H = 1080;
+
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    canvas.width = OUT_W;
+    canvas.height = OUT_H;
+
+    let beforeImg = null;
+    let afterImg = null;
+
+    // Align controls
+    let bY = 0, aY = 0;
+    let bZ = 1.00, aZ = 1.00;
+
+    // options
+    let stageBg = '#d7d9dc';
+    let noLabels = false;
+
+    // UI refs
+    const beforeFile = document.getElementById('beforeFile');
+    const afterFile  = document.getElementById('afterFile');
+
+    const createBtn = document.getElementById('createBtn');
+    const resetBtn  = document.getElementById('resetBtn');
+
+    const savePngBtn = document.getElementById('savePngBtn');
+    const saveJpgBtn = document.getElementById('saveJpgBtn');
+    const copyHintBtn = document.getElementById('copyHintBtn');
+
+    const bYEl = document.getElementById('bY');
+    const aYEl = document.getElementById('aY');
+    const bZEl = document.getElementById('bZ');
+    const aZEl = document.getElementById('aZ');
+
+    const bYVal = document.getElementById('bYVal');
+    const aYVal = document.getElementById('aYVal');
+    const bZVal = document.getElementById('bZVal');
+    const aZVal = document.getElementById('aZVal');
+
+    const bgSel = document.getElementById('bgSel');
+    const noLabelsEl = document.getElementById('noLabels');
+
+    function loadImageFromFile(file){
+      return new Promise((resolve, reject)=>{
+        const img = new Image();
+        img.onload = ()=>resolve(img);
+        img.onerror = reject;
+        img.src = URL.createObjectURL(file);
+      });
+    }
+
+    function canRender(){
+      return !!(beforeImg && afterImg);
+    }
+
+    function updateButtons(){
+      const ok = canRender();
+      createBtn.disabled = !ok;
+      resetBtn.disabled  = !ok;
+
+      // allow saving only after preview is generated at least once
+      if (!ok) {
+        savePngBtn.disabled = true;
+        saveJpgBtn.disabled = true;
+      }
+    }
+
+    function formatZoom(z){ return z.toFixed(2); }
+
+    function syncVals(){
+      bYVal.textContent = bY;
+      aYVal.textContent = aY;
+      bZVal.textContent = formatZoom(bZ);
+      aZVal.textContent = formatZoom(aZ);
+    }
+
+    // Card layout geometry
+    const PAD = 70;          // outer padding
+    const GAP = 80;          // gap between cards
+    const CARD_R = 28;       // card radius
+    const IN_PAD = 34;       // inner padding inside card
+    const LABEL_PAD = 26;
+
+    function roundRect(x,y,w,h,r){
+      const rr = Math.min(r, w/2, h/2);
+      ctx.beginPath();
+      ctx.moveTo(x+rr, y);
+      ctx.arcTo(x+w, y, x+w, y+h, rr);
+      ctx.arcTo(x+w, y+h, x, y+h, rr);
+      ctx.arcTo(x, y+h, x, y, rr);
+      ctx.arcTo(x, y, x+w, y, rr);
+      ctx.closePath();
+    }
+
+    function drawBackground(){
+      ctx.clearRect(0,0,OUT_W,OUT_H);
+      ctx.fillStyle = stageBg;
+      ctx.fillRect(0,0,OUT_W,OUT_H);
+    }
+
+    function drawCard(x,y,w,h){
+      ctx.save();
+      // shadow
+      ctx.globalAlpha = 0.18;
+      ctx.fillStyle = '#000';
+      roundRect(x+8, y+10, w, h, CARD_R);
+      ctx.fill();
+
+      ctx.globalAlpha = 1;
+      // card body
+      ctx.fillStyle = '#f8fafc';
+      ctx.strokeStyle = 'rgba(17,24,39,0.12)';
+      ctx.lineWidth = 3;
+      roundRect(x, y, w, h, CARD_R);
+      ctx.fill();
+      ctx.stroke();
+
+      // inner white plate
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = 'rgba(17,24,39,0.10)';
+      ctx.lineWidth = 2;
+      roundRect(x+IN_PAD, y+IN_PAD, w-2*IN_PAD, h-2*IN_PAD, 18);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    // Fit image fully inside target rect (contain), with optional Y shift and zoom
+    function drawContain(img, tx, ty, tw, th, yShiftPx, zoom){
+      const iw = img.width, ih = img.height;
+      const s = Math.min(tw/iw, th/ih) * zoom;
+      const dw = iw * s;
+      const dh = ih * s;
+      const dx = tx + (tw - dw)/2;
+      const dy = ty + (th - dh)/2 + yShiftPx;
+      ctx.drawImage(img, dx, dy, dw, dh);
+    }
+
+    function drawDividerLine(){
+      const x = OUT_W/2;
+      ctx.save();
+      ctx.strokeStyle = 'rgba(17,24,39,0.18)';
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(x, PAD);
+      ctx.lineTo(x, OUT_H - PAD);
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x-3, PAD);
+      ctx.lineTo(x-3, OUT_H - PAD);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawLabel(text, x, y){
+      ctx.save();
+      ctx.globalAlpha = 0.92;
+      ctx.fillStyle = 'rgba(17,24,39,0.82)';
+      ctx.font = '800 34px system-ui,-apple-system,Segoe UI,Roboto,Arial';
+      ctx.textBaseline = 'alphabetic';
+      ctx.textAlign = 'left';
+
+      // dot
+      ctx.beginPath();
+      ctx.arc(x+8, y-10, 7, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(17,24,39,0.33)';
+      ctx.fill();
+
+      ctx.fillStyle = 'rgba(17,24,39,0.82)';
+      ctx.fillText(text, x+26, y);
+      ctx.restore();
+    }
+
+    function drawPreview(){
+      drawBackground();
+
+      // card sizes
+      const totalW = OUT_W - PAD*2;
+      const totalH = OUT_H - PAD*2;
+
+      const cardW = Math.floor((totalW - GAP) / 2);
+      const cardH = totalH;
+
+      const leftX  = PAD;
+      const rightX = PAD + cardW + GAP;
+      const topY   = PAD;
+
+      // draw cards
+      drawCard(leftX, topY, cardW, cardH);
+      drawCard(rightX, topY, cardW, cardH);
+      drawDividerLine();
+
+      // inner plate rect
+      const imgX1 = leftX + IN_PAD;
+      const imgY1 = topY  + IN_PAD;
+      const imgW  = cardW - 2*IN_PAD;
+      const imgH  = cardH - 2*IN_PAD;
+
+      const imgX2 = rightX + IN_PAD;
+      const imgY2 = topY   + IN_PAD;
+
+      // clip each inner plate
+      ctx.save();
+      roundRect(imgX1, imgY1, imgW, imgH, 18);
+      ctx.clip();
+      drawContain(beforeImg, imgX1, imgY1, imgW, imgH, bY, bZ);
+      ctx.restore();
+
+      ctx.save();
+      roundRect(imgX2, imgY2, imgW, imgH, 18);
+      ctx.clip();
+      drawContain(afterImg, imgX2, imgY2, imgW, imgH, aY, aZ);
+      ctx.restore();
+
+      // labels (optional)
+      if (!noLabels) {
+        drawLabel('Before', imgX1 + LABEL_PAD, imgY1 + imgH - LABEL_PAD);
+        drawLabel('After',  imgX2 + LABEL_PAD, imgY2 + imgH - LABEL_PAD);
+      }
+
+      // Enable saving after we have a render
+      savePngBtn.disabled = false;
+      saveJpgBtn.disabled = false;
+
+      updateButtons();
+    }
+
+    function drawEmpty(){
+      drawBackground();
+      ctx.save();
+      ctx.fillStyle = (stageBg === '#0b0f19' || stageBg === '#111827' || stageBg === '#0b1320')
+        ? 'rgba(255,255,255,0.75)'
+        : 'rgba(17,24,39,0.45)';
+
+      ctx.font = '800 44px system-ui,-apple-system,Segoe UI,Roboto,Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('Upload BEFORE and AFTER', OUT_W/2, OUT_H/2 - 10);
+
+      ctx.globalAlpha = 0.8;
+      ctx.font = '600 26px system-ui,-apple-system,Segoe UI,Roboto,Arial';
+      ctx.fillText('Then Create Preview • Adjust Y + Zoom • Save', OUT_W/2, OUT_H/2 + 42);
+      ctx.restore();
+    }
+
+    // Events: files
+    beforeFile.addEventListener('change', async (e)=>{
+      const f = e.target.files?.[0];
+      if (!f) return;
+      beforeImg = await loadImageFromFile(f);
+      updateButtons();
+    });
+
+    afterFile.addEventListener('change', async (e)=>{
+      const f = e.target.files?.[0];
+      if (!f) return;
+      afterImg = await loadImageFromFile(f);
+      updateButtons();
+    });
+
+    // Events: sliders
+    function onSlider(){
+      bY = parseInt(bYEl.value, 10);
+      aY = parseInt(aYEl.value, 10);
+      bZ = parseInt(bZEl.value, 10) / 100;
+      aZ = parseInt(aZEl.value, 10) / 100;
+      syncVals();
+      if (canRender()) drawPreview();
+    }
+    bYEl.addEventListener('input', onSlider);
+    aYEl.addEventListener('input', onSlider);
+    bZEl.addEventListener('input', onSlider);
+    aZEl.addEventListener('input', onSlider);
+
+    // Events: options
+    bgSel.addEventListener('change', ()=>{
+      stageBg = bgSel.value;
+      if (canRender()) drawPreview();
+      else drawEmpty();
+    });
+
+    noLabelsEl.addEventListener('change', ()=>{
+      noLabels = noLabelsEl.checked;
+      if (canRender()) drawPreview();
+    });
+
+    // Buttons
+    createBtn.addEventListener('click', ()=>{
+      if (!canRender()) return;
+      drawPreview();
+    });
+
+    resetBtn.addEventListener('click', ()=>{
+      bY = 0; aY = 0;
+      bZ = 1.00; aZ = 1.00;
+
+      bYEl.value = 0;
+      aYEl.value = 0;
+      bZEl.value = 100;
+      aZEl.value = 100;
+
+      syncVals();
+      if (canRender()) drawPreview();
+    });
+
+    function downloadDataUrl(dataUrl, filename){
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = filename;
+      a.click();
+    }
+
+    savePngBtn.addEventListener('click', ()=>{
+      const url = canvas.toDataURL('image/png');
+      downloadDataUrl(url, 'before-after-1920x1080.png');
+    });
+
+    saveJpgBtn.addEventListener('click', ()=>{
+      const url = canvas.toDataURL('image/jpeg', 0.90);
+      downloadDataUrl(url, 'before-after-1920x1080.jpg');
+    });
+
+    copyHintBtn.addEventListener('click', async ()=>{
+      const text = "Load BEFORE/AFTER → Create Preview → align eyes with Y + Zoom → toggle No labels if needed → Save PNG or JPG.";
+      try{
+        await navigator.clipboard.writeText(text);
+        if (tg?.showPopup) tg.showPopup({ title: "Copied", message: "Tips copied to clipboard.", buttons: [{type:"ok"}] });
+      }catch(e){
+        if (tg?.showPopup) tg.showPopup({ title: "Copy", message: text, buttons: [{type:"ok"}] });
+      }
+    });
+
+    // Init
+    syncVals();
+    updateButtons();
+    drawEmpty();
+  </script>
+</body>
+</html>
