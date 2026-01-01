@@ -67,7 +67,7 @@
     .label{font-size:12px; color:var(--muted); margin: 2px 0 6px;}
     .small{font-size:12px; color:var(--muted); margin-top:8px; line-height:1.25}
 
-    input[type="file"], button, select{
+    button, select{
       width:100%;
       padding:12px 12px;
       border-radius:14px;
@@ -76,12 +76,14 @@
       font-size:15px;
     }
     select{ cursor:pointer; }
+
     .upload{
       border:1px dashed #cbd5e1;
       border-radius:16px;
       padding:12px;
       background:#fafafa;
     }
+
     button{
       background:var(--btn);
       color:var(--btnText);
@@ -96,6 +98,38 @@
       font-weight:700;
     }
     button:disabled{opacity:.55; cursor:not-allowed;}
+
+    /* Custom file picker (English text always) */
+    input[type="file"]{ display:none; }
+    .pickRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .pickBtn{
+      width:auto;
+      flex:0 0 auto;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#fff;
+      color:var(--text);
+      font-weight:800;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .pickName{
+      flex:1;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:#fff;
+      font-size:13px;
+      color:var(--muted);
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
 
     .previewWrap{
       padding:12px;
@@ -209,10 +243,21 @@
       <div class="row">
         <div class="col upload">
           <div class="label">Upload BEFORE</div>
+
+          <div class="pickRow">
+            <button id="beforePick" class="pickBtn" type="button">Choose file</button>
+            <div id="beforeName" class="pickName">No file selected</div>
+          </div>
           <input id="beforeFile" type="file" accept="image/*" />
         </div>
+
         <div class="col upload">
           <div class="label">Upload AFTER</div>
+
+          <div class="pickRow">
+            <button id="afterPick" class="pickBtn" type="button">Choose file</button>
+            <div id="afterName" class="pickName">No file selected</div>
+          </div>
           <input id="afterFile" type="file" accept="image/*" />
         </div>
       </div>
@@ -229,6 +274,14 @@
             <option value="#0b1320">Deep navy</option>
             <option value="#fef3c7">Warm light</option>
             <option value="#ecfeff">Cool light</option>
+
+            <!-- Bright backgrounds -->
+            <option value="#ff2d2d">Red (bright)</option>
+            <option value="#00c853">Green (bright)</option>
+            <option value="#7cff00">Lime (salad)</option>
+            <option value="#ff9800">Orange</option>
+            <option value="#ff4fd8">Pink</option>
+            <option value="#00e5ff">Cyan</option>
           </select>
           <div class="small">Just colors (fast). No images.</div>
         </div>
@@ -283,7 +336,7 @@
       <div class="footerRow">
         <button id="savePngBtn" type="button" class="secondary" disabled>Save PNG</button>
         <button id="saveJpgBtn" type="button" class="secondary" disabled>Save JPG (small)</button>
-        <button id="copyHintBtn" type="button" class="secondary">Copy tips</button>
+        <button id="sendBotBtn" type="button" class="secondary" disabled>Send to bot</button>
       </div>
 
       <div class="small">
@@ -318,12 +371,17 @@
     const beforeFile = document.getElementById('beforeFile');
     const afterFile  = document.getElementById('afterFile');
 
+    const beforePick = document.getElementById('beforePick');
+    const afterPick  = document.getElementById('afterPick');
+    const beforeName = document.getElementById('beforeName');
+    const afterName  = document.getElementById('afterName');
+
     const createBtn = document.getElementById('createBtn');
     const resetBtn  = document.getElementById('resetBtn');
 
     const savePngBtn = document.getElementById('savePngBtn');
     const saveJpgBtn = document.getElementById('saveJpgBtn');
-    const copyHintBtn = document.getElementById('copyHintBtn');
+    const sendBotBtn = document.getElementById('sendBotBtn');
 
     const bYEl = document.getElementById('bY');
     const aYEl = document.getElementById('aY');
@@ -337,6 +395,10 @@
 
     const bgSel = document.getElementById('bgSel');
     const noLabelsEl = document.getElementById('noLabels');
+
+    // Make "Choose file" open the hidden input
+    beforePick.addEventListener('click', ()=> beforeFile.click());
+    afterPick.addEventListener('click', ()=> afterFile.click());
 
     function loadImageFromFile(file){
       return new Promise((resolve, reject)=>{
@@ -360,6 +422,7 @@
       if (!ok) {
         savePngBtn.disabled = true;
         saveJpgBtn.disabled = true;
+        sendBotBtn.disabled = true;
       }
     }
 
@@ -454,22 +517,29 @@
       ctx.restore();
     }
 
+    // UPDATED: white text + black outline + larger size
     function drawLabel(text, x, y){
       ctx.save();
-      ctx.globalAlpha = 0.92;
-      ctx.fillStyle = 'rgba(17,24,39,0.82)';
-      ctx.font = '800 34px system-ui,-apple-system,Segoe UI,Roboto,Arial';
+      ctx.globalAlpha = 0.98;
+      ctx.font = '900 40px system-ui,-apple-system,Segoe UI,Roboto,Arial';
       ctx.textBaseline = 'alphabetic';
       ctx.textAlign = 'left';
 
       // dot
       ctx.beginPath();
-      ctx.arc(x+8, y-10, 7, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(17,24,39,0.33)';
+      ctx.arc(x+8, y-12, 7, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(0,0,0,0.25)';
       ctx.fill();
 
-      ctx.fillStyle = 'rgba(17,24,39,0.82)';
+      // outline
+      ctx.lineWidth = 6;
+      ctx.strokeStyle = 'rgba(0,0,0,0.95)';
+      ctx.strokeText(text, x+26, y);
+
+      // fill
+      ctx.fillStyle = '#ffffff';
       ctx.fillText(text, x+26, y);
+
       ctx.restore();
     }
 
@@ -523,6 +593,7 @@
       // Enable saving after we have a render
       savePngBtn.disabled = false;
       saveJpgBtn.disabled = false;
+      sendBotBtn.disabled = false;
 
       updateButtons();
     }
@@ -549,6 +620,7 @@
     beforeFile.addEventListener('change', async (e)=>{
       const f = e.target.files?.[0];
       if (!f) return;
+      beforeName.textContent = f.name || 'selected';
       beforeImg = await loadImageFromFile(f);
       updateButtons();
     });
@@ -556,6 +628,7 @@
     afterFile.addEventListener('change', async (e)=>{
       const f = e.target.files?.[0];
       if (!f) return;
+      afterName.textContent = f.name || 'selected';
       afterImg = await loadImageFromFile(f);
       updateButtons();
     });
@@ -622,14 +695,14 @@
       downloadDataUrl(url, 'before-after-1920x1080.jpg');
     });
 
-    copyHintBtn.addEventListener('click', async ()=>{
-      const text = "Load BEFORE/AFTER → Create Preview → align eyes with Y + Zoom → toggle No labels if needed → Save PNG or JPG.";
-      try{
-        await navigator.clipboard.writeText(text);
-        if (tg?.showPopup) tg.showPopup({ title: "Copied", message: "Tips copied to clipboard.", buttons: [{type:"ok"}] });
-      }catch(e){
-        if (tg?.showPopup) tg.showPopup({ title: "Copy", message: text, buttons: [{type:"ok"}] });
-      }
+    // Send to bot (requires backend; otherwise shows a hint)
+    sendBotBtn.addEventListener('click', ()=>{
+      if (!tg) return;
+      tg.showPopup?.({
+        title: "Send to bot",
+        message: "To send the image to the bot, we need a small backend (because Telegram sendData can't transfer big images). Tell me and I will give you the ready backend code.",
+        buttons: [{type:"ok"}]
+      });
     });
 
     // Init
