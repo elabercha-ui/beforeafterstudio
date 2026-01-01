@@ -30,16 +30,42 @@
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       color:var(--text);
     }
-    .wrap{max-width:720px;margin:0 auto;padding:14px 14px 24px;}
-    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+    .wrap{
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 14px 14px 24px;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
     .brand{font-weight:800;letter-spacing:.2px}
-    .tag{font-size:12px;padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--chipBorder);color:var(--chipText);white-space:nowrap;}
+    .tag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:var(--chip);
+      border:1px solid var(--chipBorder);
+      color:var(--chipText);
+      white-space:nowrap;
+    }
 
-    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin-bottom:12px;}
-    .row{display:flex;gap:10px;flex-wrap:wrap;}
-    .col{flex:1;min-width:220px;}
-    .label{font-size:12px;color:var(--muted);margin:2px 0 6px;}
-    .small{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.25}
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+      margin-bottom:12px;
+    }
+
+    .row{display:flex; gap:10px; flex-wrap:wrap;}
+    .col{flex:1; min-width: 220px;}
+
+    .label{font-size:12px; color:var(--muted); margin: 2px 0 6px;}
+    .small{font-size:12px; color:var(--muted); margin-top:8px; line-height:1.25}
 
     input[type="file"], button, select{
       width:100%;
@@ -49,38 +75,121 @@
       background:#fff;
       font-size:15px;
     }
-    select{cursor:pointer;}
-    .upload{border:1px dashed #cbd5e1;border-radius:16px;padding:12px;background:#fafafa;}
-    button{background:var(--btn);color:var(--btnText);border:none;font-weight:700;cursor:pointer;}
-    button.secondary{background:#fff;color:var(--text);border:1px solid var(--border);font-weight:700;}
-    button:disabled{opacity:.55;cursor:not-allowed;}
+    select{ cursor:pointer; }
+    .upload{
+      border:1px dashed #cbd5e1;
+      border-radius:16px;
+      padding:12px;
+      background:#fafafa;
+    }
+    button{
+      background:var(--btn);
+      color:var(--btnText);
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+    }
+    button.secondary{
+      background:#fff;
+      color:var(--text);
+      border:1px solid var(--border);
+      font-weight:700;
+    }
+    button:disabled{opacity:.55; cursor:not-allowed;}
 
-    .previewWrap{padding:12px;border-radius:18px;background:linear-gradient(180deg,#ffffff,#fbfbfd);border:1px solid var(--border);}
-    canvas{width:100%;height:auto;border-radius:16px;background:#fff;display:block;}
+    .previewWrap{
+      padding:12px;
+      border-radius:18px;
+      background: linear-gradient(180deg,#ffffff, #fbfbfd);
+      border:1px solid var(--border);
+    }
+    canvas{
+      width:100%;
+      height:auto;
+      border-radius:16px;
+      background:#fff;
+      display:block;
+    }
 
-    .footerRow{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
-    .footerRow button{flex:1;min-width:180px;}
+    .footerRow{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;}
+    .footerRow button{flex:1; min-width: 180px;}
 
-    .slidersGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
-    .sliderCard{border:1px solid var(--border);border-radius:16px;padding:12px;background:#fff;}
-    .sliderHead{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-bottom:6px;}
-    .val{font-variant-numeric:tabular-nums;color:var(--text);}
-    input[type="range"]{width:100%;accent-color:#2563eb;}
+    .slidersGrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .sliderCard{
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:12px;
+      background:#fff;
+    }
+    .sliderHead{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .val{
+      font-variant-numeric: tabular-nums;
+      color:var(--text);
+    }
+    input[type="range"]{width:100%; accent-color: #2563eb;}
 
-    .btnRow2{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
-    .btnRow2 button{flex:1;min-width:180px;}
+    .btnRow2{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;}
+    .btnRow2 button{flex:1; min-width: 180px;}
 
-    .toggleRow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:14px;background:#fff;}
-    .toggleRow .tLabel{font-size:14px;color:var(--text);font-weight:700;}
-    .toggleRow .tSub{font-size:12px;color:var(--muted);margin-top:2px;font-weight:500;}
-    .switch{position:relative;width:54px;height:30px;display:inline-block;flex:0 0 auto;}
+    .toggleRow{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:#fff;
+    }
+    .toggleRow .tLabel{
+      font-size:14px;
+      color:var(--text);
+      font-weight:700;
+    }
+    .toggleRow .tSub{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:2px;
+      font-weight:500;
+    }
+    .switch{
+      position:relative;
+      width:54px;
+      height:30px;
+      display:inline-block;
+      flex:0 0 auto;
+    }
     .switch input{display:none;}
-    .slider{position:absolute;inset:0;background:#e5e7eb;border-radius:999px;transition:.2s;}
-    .slider:before{content:"";position:absolute;width:24px;height:24px;left:3px;top:3px;background:#fff;border-radius:999px;box-shadow:0 4px 10px rgba(0,0,0,.15);transition:.2s;}
-    .switch input:checked + .slider{background:#2563eb;}
-    .switch input:checked + .slider:before{transform:translateX(24px);}
-
-    .hint{font-size:12px;color:var(--muted);margin-top:8px}
+    .slider{
+      position:absolute; inset:0;
+      background:#e5e7eb;
+      border-radius:999px;
+      transition:.2s;
+    }
+    .slider:before{
+      content:"";
+      position:absolute;
+      width:24px;height:24px;
+      left:3px;top:3px;
+      background:#fff;
+      border-radius:999px;
+      box-shadow:0 4px 10px rgba(0,0,0,.15);
+      transition:.2s;
+    }
+    .switch input:checked + .slider{ background:#2563eb; }
+    .switch input:checked + .slider:before{ transform:translateX(24px); }
   </style>
 </head>
 
@@ -115,12 +224,12 @@
             <option value="#0b1320">Deep navy</option>
             <option value="#fef3c7">Warm light</option>
             <option value="#ecfeff">Cool light</option>
-
-            <!-- Bright options -->
-            <option value="#fee2e2">Soft red</option>
-            <option value="#dcfce7">Soft green</option>
-            <option value="#d9f99d">Lime</option>
-            <option value="#e0e7ff">Indigo</option>
+            <!-- brighter -->
+            <option value="#ef4444">Red</option>
+            <option value="#22c55e">Green</option>
+            <option value="#a3e635">Lime</option>
+            <option value="#f97316">Orange</option>
+            <option value="#06b6d4">Cyan</option>
           </select>
           <div class="small">Just colors (fast). No images.</div>
         </div>
@@ -178,10 +287,7 @@
         <button id="sendBtn" type="button" class="secondary" disabled>Send to bot</button>
       </div>
 
-      <div class="small">
-        Output: 1920×1080. JPG uses quality 0.90 (small file).
-      </div>
-      <div class="hint" id="apiHint"></div>
+      <div class="small" id="apiHint"></div>
     </div>
   </div>
 
@@ -189,12 +295,10 @@
     const tg = window.Telegram?.WebApp;
     if (tg) { tg.expand(); tg.ready(); }
 
-    // API base URL:
-    // 1) ?api=https://your-domain
-    // 2) fallback to localhost
-    const qs = new URLSearchParams(location.search);
-    const API_BASE = (qs.get('api') || 'http://127.0.0.1:8000').replace(/\/+$/,'');
-    document.getElementById('apiHint').textContent = 'API: ' + API_BASE;
+    // IMPORTANT: put your backend URL here (local for tests)
+    // for server later: https://YOURDOMAIN.com
+    const API_BASE = (new URLSearchParams(location.search).get("api")) || "http://127.0.0.1:8000";
+    document.getElementById("apiHint").textContent = "API: " + API_BASE;
 
     const OUT_W = 1920, OUT_H = 1080;
     const canvas = document.getElementById('c');
@@ -219,7 +323,7 @@
 
     const savePngBtn = document.getElementById('savePngBtn');
     const saveJpgBtn = document.getElementById('saveJpgBtn');
-    const sendBtn = document.getElementById('sendBtn');
+    const sendBtn    = document.getElementById('sendBtn');
 
     const bYEl = document.getElementById('bY');
     const aYEl = document.getElementById('aY');
@@ -242,7 +346,6 @@
         img.src = URL.createObjectURL(file);
       });
     }
-
     function canRender(){ return !!(beforeImg && afterImg); }
 
     function updateButtons(){
@@ -264,11 +367,7 @@
       aZVal.textContent = formatZoom(aZ);
     }
 
-    const PAD = 70;
-    const GAP = 80;
-    const CARD_R = 28;
-    const IN_PAD = 34;
-    const LABEL_PAD = 26;
+    const PAD = 70, GAP = 80, CARD_R = 28, IN_PAD = 34, LABEL_PAD = 26;
 
     function roundRect(x,y,w,h,r){
       const rr = Math.min(r, w/2, h/2);
@@ -299,15 +398,13 @@
       ctx.strokeStyle = 'rgba(17,24,39,0.12)';
       ctx.lineWidth = 3;
       roundRect(x, y, w, h, CARD_R);
-      ctx.fill();
-      ctx.stroke();
+      ctx.fill(); ctx.stroke();
 
       ctx.fillStyle = '#ffffff';
       ctx.strokeStyle = 'rgba(17,24,39,0.10)';
       ctx.lineWidth = 2;
       roundRect(x+IN_PAD, y+IN_PAD, w-2*IN_PAD, h-2*IN_PAD, 18);
-      ctx.fill();
-      ctx.stroke();
+      ctx.fill(); ctx.stroke();
       ctx.restore();
     }
 
@@ -326,34 +423,32 @@
       ctx.save();
       ctx.strokeStyle = 'rgba(17,24,39,0.18)';
       ctx.lineWidth = 6;
-      ctx.beginPath();
-      ctx.moveTo(x, PAD);
-      ctx.lineTo(x, OUT_H - PAD);
-      ctx.stroke();
-
+      ctx.beginPath(); ctx.moveTo(x, PAD); ctx.lineTo(x, OUT_H - PAD); ctx.stroke();
       ctx.strokeStyle = 'rgba(255,255,255,0.35)';
       ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(x-3, PAD);
-      ctx.lineTo(x-3, OUT_H - PAD);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x-3, PAD); ctx.lineTo(x-3, OUT_H - PAD); ctx.stroke();
       ctx.restore();
     }
 
-    // Labels: white with black outline, a bit bigger
-    function drawLabelOutlined(text, x, y){
+    // White text + black outline (your request)
+    function drawLabel(text, x, y){
       ctx.save();
-      ctx.font = '900 42px system-ui,-apple-system,Segoe UI,Roboto,Arial';
+      ctx.font = '900 40px system-ui,-apple-system,Segoe UI,Roboto,Arial';
       ctx.textBaseline = 'alphabetic';
       ctx.textAlign = 'left';
 
-      ctx.lineWidth = 7;
+      ctx.lineWidth = 6;
       ctx.strokeStyle = 'rgba(0,0,0,0.85)';
-      ctx.strokeText(text, x, y);
+      ctx.strokeText(text, x+26, y);
 
       ctx.fillStyle = '#ffffff';
-      ctx.fillText(text, x, y);
+      ctx.fillText(text, x+26, y);
 
+      // small dot
+      ctx.beginPath();
+      ctx.arc(x+8, y-12, 7, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      ctx.fill();
       ctx.restore();
     }
 
@@ -362,7 +457,6 @@
 
       const totalW = OUT_W - PAD*2;
       const totalH = OUT_H - PAD*2;
-
       const cardW = Math.floor((totalW - GAP) / 2);
       const cardH = totalH;
 
@@ -382,27 +476,22 @@
       const imgX2 = rightX + IN_PAD;
       const imgY2 = topY   + IN_PAD;
 
-      ctx.save();
-      roundRect(imgX1, imgY1, imgW, imgH, 18);
-      ctx.clip();
+      ctx.save(); roundRect(imgX1, imgY1, imgW, imgH, 18); ctx.clip();
       drawContain(beforeImg, imgX1, imgY1, imgW, imgH, bY, bZ);
       ctx.restore();
 
-      ctx.save();
-      roundRect(imgX2, imgY2, imgW, imgH, 18);
-      ctx.clip();
+      ctx.save(); roundRect(imgX2, imgY2, imgW, imgH, 18); ctx.clip();
       drawContain(afterImg, imgX2, imgY2, imgW, imgH, aY, aZ);
       ctx.restore();
 
       if (!noLabels) {
-        drawLabelOutlined('Before', imgX1 + LABEL_PAD, imgY1 + imgH - LABEL_PAD);
-        drawLabelOutlined('After',  imgX2 + LABEL_PAD, imgY2 + imgH - LABEL_PAD);
+        drawLabel('Before', imgX1 + LABEL_PAD, imgY1 + imgH - LABEL_PAD);
+        drawLabel('After',  imgX2 + LABEL_PAD, imgY2 + imgH - LABEL_PAD);
       }
 
       savePngBtn.disabled = false;
       saveJpgBtn.disabled = false;
       sendBtn.disabled = false;
-
       updateButtons();
     }
 
@@ -412,12 +501,10 @@
       ctx.fillStyle = (stageBg === '#0b0f19' || stageBg === '#111827' || stageBg === '#0b1320')
         ? 'rgba(255,255,255,0.75)'
         : 'rgba(17,24,39,0.45)';
-
       ctx.font = '800 44px system-ui,-apple-system,Segoe UI,Roboto,Arial';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('Upload BEFORE and AFTER', OUT_W/2, OUT_H/2 - 10);
-
       ctx.globalAlpha = 0.8;
       ctx.font = '600 26px system-ui,-apple-system,Segoe UI,Roboto,Arial';
       ctx.fillText('Then Create Preview • Adjust Y + Zoom • Save', OUT_W/2, OUT_H/2 + 42);
@@ -470,12 +557,8 @@
     resetBtn.addEventListener('click', ()=>{
       bY = 0; aY = 0;
       bZ = 1.00; aZ = 1.00;
-
-      bYEl.value = 0;
-      aYEl.value = 0;
-      bZEl.value = 100;
-      aZEl.value = 100;
-
+      bYEl.value = 0; aYEl.value = 0;
+      bZEl.value = 100; aZEl.value = 100;
       syncVals();
       if (canRender()) drawPreview();
     });
@@ -488,50 +571,56 @@
     }
 
     savePngBtn.addEventListener('click', ()=>{
-      const url = canvas.toDataURL('image/png');
-      downloadDataUrl(url, 'before-after-1920x1080.png');
+      downloadDataUrl(canvas.toDataURL('image/png'), 'before-after-1920x1080.png');
     });
 
     saveJpgBtn.addEventListener('click', ()=>{
-      const url = canvas.toDataURL('image/jpeg', 0.90);
-      downloadDataUrl(url, 'before-after-1920x1080.jpg');
+      downloadDataUrl(canvas.toDataURL('image/jpeg', 0.90), 'before-after-1920x1080.jpg');
     });
 
-    // REAL Send to bot: upload JPEG blob to backend
-    sendBtn.addEventListener('click', async ()=>{
+    async function sendToBot(){
       try{
-        if (!tg) throw new Error('Telegram WebApp not found');
-        if (!canRender()) throw new Error('Nothing to send');
-
-        sendBtn.disabled = true;
-        tg.MainButton?.hide?.();
-
-        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
-        if (!blob) throw new Error('Cannot create image blob');
-
-        const chatId = tg?.initDataUnsafe?.user?.id;
-        if (!chatId) throw new Error('No user id');
-
-        const fd = new FormData();
-        fd.append('chat_id', String(chatId));
-        fd.append('init_data', tg.initData || '');
-        fd.append('file', blob, 'before-after.jpg');
-
-        const r = await fetch(API_BASE + '/miniapp/send', { method:'POST', body: fd });
-        const data = await r.json().catch(()=> ({}));
-
-        if (!r.ok || !data.ok) {
-          throw new Error(data.detail || data.error || ('HTTP ' + r.status));
+        if (!tg) {
+          alert("Open this app inside Telegram.");
+          return;
         }
 
-        if (tg.showPopup) tg.showPopup({ title:'OK', message:'Отправлено в бот ✅', buttons:[{type:'ok'}] });
+        const uid = tg.initDataUnsafe?.user?.id || null;
+        const initData = tg.initData || "";
+
+        if (!uid || !initData) {
+          if (tg.showPopup) tg.showPopup({ title:"Send failed", message:"No user id. Open Mini App from the bot chat (not in browser).", buttons:[{type:"ok"}] });
+          else alert("No user id. Open Mini App from the bot chat.");
+          return;
+        }
+
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.92));
+        const fd = new FormData();
+        fd.append("image", blob, "before-after.jpg");
+        fd.append("user_id", String(uid));
+        fd.append("init_data", initData);
+
+        const r = await fetch(API_BASE + "/miniapp/send", { method:"POST", body: fd });
+        const data = await r.json().catch(()=> ({}));
+
+        if (!r.ok) {
+          const msg = data?.detail || "Send failed";
+          if (tg.showPopup) tg.showPopup({ title:"Send failed", message: String(msg), buttons:[{type:"ok"}] });
+          else alert(msg);
+          return;
+        }
+
+        if (tg.showPopup) tg.showPopup({ title:"OK", message:"Sent to bot ✅", buttons:[{type:"ok"}] });
       }catch(err){
-        const msg = (err && err.message) ? err.message : String(err);
-        if (tg?.showPopup) tg.showPopup({ title:'Send failed', message: msg, buttons:[{type:'ok'}] });
+        const msg = String(err?.message || err);
+        if (tg?.showPopup) tg.showPopup({ title:"Send failed", message: msg, buttons:[{type:"ok"}] });
         else alert(msg);
-      }finally{
-        sendBtn.disabled = false;
       }
+    }
+
+    sendBtn.addEventListener("click", ()=>{
+      if (!canRender()) return;
+      sendToBot();
     });
 
     syncVals();
